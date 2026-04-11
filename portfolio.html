@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ankita Anand — ML Engineer & Data Scientist</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.15);
+    --text: #f0f0f5;
+    --muted: #888899;
+    --accent: #7f77dd;
+    --accent2: #5dcaa5;
+    --accent3: #f0997b;
+    --glow: rgba(127,119,221,0.15);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.7; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(10,10,15,0.85); backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2rem;
+  }
+  .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--accent); letter-spacing: -0.5px; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 6rem 2rem 4rem; text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(127,119,221,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block; padding: 0.3rem 1rem; border-radius: 100px;
+    background: rgba(127,119,221,0.1); border: 1px solid rgba(127,119,221,0.3);
+    color: var(--accent); font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 1rem; }
+  .hero h1 span { 
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero-sub { font-size: 1.15rem; color: var(--muted); max-width: 560px; margin: 0 auto 2rem; }
+  .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 0.75rem 1.75rem; border-radius: 8px; font-size: 0.95rem; font-weight: 600;
+    background: var(--accent); color: #fff; text-decoration: none; transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+  .btn-secondary {
+    padding: 0.75rem 1.75rem; border-radius: 8px; font-size: 0.95rem; font-weight: 600;
+    background: transparent; color: var(--text); border: 1px solid var(--border2); text-decoration: none; transition: background 0.2s, transform 0.2s;
+  }
+  .btn-secondary:hover { background: var(--bg3); transform: translateY(-1px); }
+  .hero-socials { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; }
+  .hero-socials a {
+    display: flex; align-items: center; gap: 0.4rem; color: var(--muted); text-decoration: none;
+    font-size: 0.85rem; padding: 0.4rem 0.8rem; border-radius: 6px;
+    border: 1px solid var(--border); transition: all 0.2s;
+  }
+  .hero-socials a:hover { color: var(--text); border-color: var(--border2); background: var(--bg3); }
+
+  /* SECTIONS */
+  section { padding: 6rem 2rem; max-width: 900px; margin: 0 auto; }
+  .section-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 0.5rem; }
+  .section-title { font-size: 2rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 3rem; }
+  .divider { width: 100%; height: 1px; background: var(--border); max-width: 900px; margin: 0 auto; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .about-text p { color: var(--muted); margin-bottom: 1rem; font-size: 1rem; }
+  .about-text p strong { color: var(--text); }
+  .about-stats { display: flex; flex-direction: column; gap: 1rem; }
+  .stat-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1rem 1.25rem; display: flex; align-items: center; gap: 1rem;
+  }
+  .stat-icon { font-size: 1.4rem; }
+  .stat-num { font-size: 1.4rem; font-weight: 700; color: var(--accent); }
+  .stat-desc { font-size: 0.8rem; color: var(--muted); }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; }
+  .skill-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .skill-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+  .skill-card h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent2); margin-bottom: 0.75rem; }
+  .pill-group { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .pill {
+    padding: 0.25rem 0.7rem; border-radius: 100px; font-size: 0.78rem;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--muted);
+  }
+
+  /* PROJECTS */
+  .projects-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .project-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+    padding: 1.75rem; transition: border-color 0.2s, transform 0.2s;
+    display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: start;
+  }
+  .project-card:hover { border-color: rgba(127,119,221,0.4); transform: translateY(-2px); }
+  .project-tag {
+    display: inline-block; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.72rem;
+    font-weight: 600; margin-bottom: 0.6rem; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .tag-ai { background: rgba(127,119,221,0.15); color: var(--accent); }
+  .tag-ml { background: rgba(93,202,165,0.12); color: var(--accent2); }
+  .tag-nlp { background: rgba(240,153,123,0.12); color: var(--accent3); }
+  .project-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .project-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.75rem; }
+  .project-metrics { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .metric { font-size: 0.78rem; color: var(--accent2); font-weight: 600; }
+
+  /* EXPERIENCE */
+  .exp-list { display: flex; flex-direction: column; gap: 0; }
+  .exp-item { display: grid; grid-template-columns: 140px 1fr; gap: 2rem; padding: 1.5rem 0; border-bottom: 1px solid var(--border); }
+  .exp-date { font-size: 0.8rem; color: var(--muted); padding-top: 0.2rem; }
+  .exp-content h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
+  .exp-org { font-size: 0.85rem; color: var(--accent); margin-bottom: 0.6rem; }
+  .exp-content ul { padding-left: 1.1rem; }
+  .exp-content li { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.3rem; line-height: 1.5; }
+
+  /* HONORS */
+  .honors-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+  .honor-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.25rem; display: flex; gap: 1rem; align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+  .honor-card:hover { border-color: var(--border2); }
+  .honor-icon { font-size: 1.3rem; margin-top: 0.1rem; }
+  .honor-card h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .honor-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+  /* CONTACT */
+  .contact-card { text-align: center; padding: 4rem 2rem 6rem; position: relative; overflow: visible; min-height: 500px; }
+  .contact-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(127,119,221,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .contact-big {
+    font-size: clamp(5rem, 10vw, 12rem); font-weight: 600; letter-spacing: -4px; line-height: 1; margin-bottom: 2.5rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .contact-card p { color: var(--muted); font-size: 1rem; margin-bottom: 0.5rem; }
+  .contact-email {
+    font-size: 1.2rem; font-weight: 600; color: var(--text); text-decoration: none; transition: color 0.2s;
+    border-bottom: 1px solid var(--border2); padding-bottom: 2px;
+  }
+  .contact-email:hover { color: var(--accent); border-color: var(--accent); }
+  .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 0.5rem; text-decoration: none;
+    padding: 0.6rem 1.2rem; border-radius: 8px; font-size: 0.9rem; font-weight: 500;
+    background: var(--bg2); border: 1px solid var(--border); color: var(--muted); transition: all 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); background: var(--bg3); }
+
+  /* FOOTER */
+  footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.82rem; border-top: 1px solid var(--border); }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .project-card { grid-template-columns: 1fr; }
+    nav { padding: 1rem; }
+    .nav-links { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Ankita Anand</div>
+  <ul class="nav-links">
+    <li><a href="javascript:void(0)" data-scroll="about">About</a></li>
+    <li><a href="javascript:void(0)" data-scroll="projects">Projects</a></li>
+    <li><a href="javascript:void(0)" data-scroll="experience">Experience</a></li>
+    <li><a href="javascript:void(0)" data-scroll="contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-tag">Open to Opportunities &nbsp;·&nbsp; Batch 2027</div>
+    <h1>Hi, I'm <span>Ankita Anand</span></h1>
+    <p class="hero-sub">ML Engineer & Data Scientist building intelligent systems — from brain tumor detectors to asteroid classifiers and autonomous vehicle frameworks.</p>
+    <div class="hero-btns">
+      <a href="javascript:void(0)" data-scroll="projects" class="btn-primary">View Projects</a>
+      <a href="javascript:void(0)" data-scroll="contact" class="btn-secondary">Get in touch</a>
+    </div>
+    <div class="hero-socials">
+      <a href="https://www.linkedin.com/in/ankita-anand-42702a291/" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/ankita2005-bit" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        GitHub
+      </a>
+      <a href="/cdn-cgi/l/email-protection#d7b6b9bcbea3b6b6b9b6b9b3e7eee5e7e7e297b0bab6bebbf9b4b8ba">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        Email
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About me</div>
+  <div class="section-title">Building at the intersection of AI & real-world impact</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a <strong>3rd-year CSE student at Kumaraguru College of Technology, Coimbatore</strong>, specialising in AI, ML, and applied data science. I care about turning complex models into tools that actually help people.</p>
+      <p>From detecting brain tumors in MRI scans to classifying hazardous asteroids from NASA datasets, I love tackling problems with high stakes and building end-to-end systems that work.</p>
+      <p>I've interned at Smart Global Solutions (full-stack) and at <strong>Taylor's University Malaysia (MADE 2024)</strong> where I built NLP-powered chatbots. I'm actively looking for Summer 2026 internship opportunities.</p>
+    </div>
+    <div class="about-stats">
+      
+      <div class="stat-card">
+        <div class="stat-icon">🌏</div>
+        <div>
+          <div class="stat-num">2</div>
+          <div class="stat-desc">Internships (India + Malaysia)</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🔬</div>
+        <div>
+          <div class="stat-num">1</div>
+          <div class="stat-desc">Paper presented · Autonomous Vehicles + ROS 2</div>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">Tech Stack</div>
+  <div class="section-title">What I work with</div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <h3>Languages</h3>
+      <div class="pill-group">
+        <span class="pill">Python</span><span class="pill">C</span><span class="pill">SQL</span><span class="pill">JavaScript</span><span class="pill">HTML/CSS</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>ML / AI</h3>
+      <div class="pill-group">
+        <span class="pill">PyTorch</span><span class="pill">TensorFlow</span><span class="pill">Scikit-learn</span><span class="pill">OpenCV</span><span class="pill">spaCy</span><span class="pill">Rasa NLU</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>Data</h3>
+      <div class="pill-group">
+        <span class="pill">Pandas</span><span class="pill">NumPy</span><span class="pill">Matplotlib</span><span class="pill">Seaborn</span><span class="pill">Tableau</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>Frameworks & Tools</h3>
+      <div class="pill-group">
+        <span class="pill">Streamlit</span><span class="pill">Flask</span><span class="pill">FastAPI</span><span class="pill">Django</span><span class="pill">Docker</span><span class="pill">Git</span><span class="pill">Postman</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>IoT</h3>
+      <div class="pill-group">
+        <span class="pill">Arduino</span><span class="pill">Sensors</span><span class="pill">Embedded Systems</span><span class="pill">Hardware Prototyping</span><span class="pill">Bluetooth</span><span class="pill">GPS Modules</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>Robotics / Systems</h3>
+      <div class="pill-group">
+        <span class="pill">ROS 2</span><span class="pill">Digital Twin</span><span class="pill">Sensor Fusion</span><span class="pill">Autonomous Systems</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>Other</h3>
+      <div class="pill-group">
+        <span class="pill">Figma</span><span class="pill">Bootstrap</span><span class="pill">Tesseract OCR</span><span class="pill">BeautifulSoup</span><span class="pill">RoboFlow</span><span class="pill">Android Studio</span><span class="pill">App Development</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">Projects</div>
+  <div class="section-title">Things I've built</div>
+  <div class="projects-list">
+
+    <div class="project-card">
+      <div>
+        <span class="project-tag tag-ai">Medical AI</span>
+        <h3>MedScan AI — Brain Tumor Detection</h3>
+        <p>End-to-end MRI tumor detection system using Streamlit, RoboFlow, and OpenCV. Integrated Radialog and LLaVa LLM with an interactive chatbot that explains predictions and auto-generates structured medical reports.</p>
+        <div class="project-metrics">
+          <span class="metric">~88–91% accuracy</span>
+          <span class="metric" style="color: var(--muted);">·</span>
+          <span class="metric">~60% less report drafting time</span>
+          <span class="metric" style="color: var(--muted);">·</span>
+          <span class="metric">&lt;1.5s inference</span>
+        </div>
+      </div>
+      <div>
+        <a href="https://github.com/ankita2005-bit" target="_blank" style="color: var(--muted); font-size: 1.2rem; text-decoration: none;">↗</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div>
+        <span class="project-tag tag-ml">Space + ML</span>
+        <h3>AstroShield — NEO Threat Detection</h3>
+        <p>ML classifier trained on 90,000+ NASA Near-Earth Object records to predict potentially hazardous asteroids. Feature engineering and hyperparameter tuning improved baseline accuracy significantly. Visualized risk patterns for non-technical users.</p>
+        <div class="project-metrics">
+          <span class="metric">~85–89% F1-score</span>
+          <span class="metric" style="color: var(--muted);">·</span>
+          <span class="metric">+14% over baseline</span>
+          <span class="metric" style="color: var(--muted);">·</span>
+          <span class="metric">90K+ records</span>
+        </div>
+      </div>
+      <div>
+        <a href="https://github.com/ankita2005-bit" target="_blank" style="color: var(--muted); font-size: 1.2rem; text-decoration: none;">↗</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div>
+        <span class="project-tag tag-ml">ML · AgriTech</span>
+        <h3>Crop Recommendation System</h3>
+        <p>ML model that recommends the most suitable crop to grow based on soil nutrients (N, P, K), temperature, humidity, pH, and rainfall. Trained on agricultural datasets using ensemble methods, helping farmers make data-driven decisions and maximise yield.</p>
+        <div class="project-metrics">
+          <span class="metric">Scikit-learn</span>
+          <span class="metric" style="color: var(--muted);">·</span>
+          <span class="metric">Random Forest</span>
+          <span class="metric" style="color: var(--muted);">·</span>
+          <span class="metric">Soil & Climate Features</span>
+        </div>
+      </div>
+      <div>
+        <a href="https://github.com/ankita2005-bit" target="_blank" style="color: var(--muted); font-size: 1.2rem; text-decoration: none;">↗</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div>
+        <span class="project-tag tag-ai">Medical AI · ML</span>
+        <h3>Human Disease Diagnosis</h3>
+        <p>ML model that predicts diseases based on patient symptoms, enabling early diagnosis and faster medical decision-making. Built a multi-class classification pipeline trained on symptom-disease datasets, providing probable diagnoses with supporting symptom analysis.</p>
+        <div class="project-metrics">
+          <span class="metric">Scikit-learn</span>
+          <span class="metric" style="color: var(--muted);">·</span>
+          <span class="metric">Multi-class Classification</span>
+          <span class="metric" style="color: var(--muted);">·</span>
+          <span class="metric">Symptom Analysis</span>
+        </div>
+      </div>
+      <div>
+        <a href="https://github.com/ankita2005-bit" target="_blank" style="color: var(--muted); font-size: 1.2rem; text-decoration: none;">↗</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div>
+        <span class="project-tag tag-ml">Web · AgriTech</span>
+        <h3>AgriNest — Agriculture Brand Website</h3>
+        <p>Designed and deployed a full website for AgriNest, an agriculture brand. Built with a focus on clean UI, responsive design, and brand identity. Currently advancing the platform with new features and improvements in progress.</p>
+        <div class="project-metrics">
+          <span class="metric">Deployed & Live</span>
+          <span class="metric" style="color: var(--muted);">·</span>
+          <span class="metric">Responsive Design</span>
+          <span class="metric" style="color: var(--muted);">·</span>
+          <span class="metric">Advancements in Progress</span>
+        </div>
+      </div>
+      <div>
+        <a href="https://agrinest.co.in" target="_blank" style="color: var(--muted); font-size: 1.2rem; text-decoration: none;">↗</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div>
+        <span class="project-tag tag-ai">IoT · In Progress</span>
+        <h3>SmartWallet — IoT Physical Wallet + Companion App</h3>
+        <p>Building a smart physical wallet that alerts the user when a card is removed and not replaced within a set time. Paired with a mobile app featuring real-time GPS tracking, remote password management, and theft mode activation — locking the wallet and triggering alerts instantly. Both the hardware and app are actively in development.</p>
+        <div class="project-metrics">
+          <span class="metric">IoT Hardware</span>
+          <span class="metric" style="color: var(--muted);">·</span>
+          <span class="metric">GPS Tracking</span>
+          <span class="metric" style="color: var(--muted);">·</span>
+          <span class="metric">Theft Mode</span>
+          <span class="metric" style="color: var(--muted);">·</span>
+          <span class="metric">In Progress</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div>
+        <span class="project-tag tag-nlp">Research · Autonomous Systems</span>
+        <h3>Intelligent Perception & Control Framework for Autonomous Vehicles</h3>
+        <p>Paper presented on integrating advanced perception with robust control strategies using ROS 2 for modular, scalable real-time architecture. Validated using a digital twin environment to simulate real-world scenarios before physical deployment. Collaboration with Sanjay B., mentored by Dr. Bharathipriya C.</p>
+        <div class="project-metrics">
+          <span class="metric">ROS 2</span>
+          <span class="metric" style="color: var(--muted);">·</span>
+          <span class="metric">Digital Twin Validation</span>
+          <span class="metric" style="color: var(--muted);">·</span>
+          <span class="metric">Sensor Fusion</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Experience</div>
+  <div class="section-title">Where I've worked</div>
+  <div class="exp-list">
+
+    <div class="exp-item">
+      <div class="exp-date">Dec 2025 – Jan 2026</div>
+      <div class="exp-content">
+        <h3>Software Development Intern</h3>
+        <div class="exp-org">Smart Global Solutions · Coimbatore, India</div>
+        <ul>
+          <li>Led UI development using HTML, CSS, Bootstrap — built reusable components and integrated external APIs with strong input validation.</li>
+          <li>Contributed to backend development and business logic, supporting database interactions and performance optimisation.</li>
+          <li>Followed best practices: Git, testing, documentation, collaborative dev cycles.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">13 – 24 Jul 2024</div>
+      <div class="exp-content">
+        <h3>Intern — NLP & Conversational AI</h3>
+        <div class="exp-org">MADE 2024 · Taylor's University, Malaysia</div>
+        <ul>
+          <li>Designed conversational flows using Rasa NLU (intent classification) and spaCy (entity extraction) for citizen report capture.</li>
+          <li>Implemented conversation state modelling and dialogue flow validation across multiple interaction paths.</li>
+          <li>Optimised pipelines to improve query resolution accuracy and overall chatbot reliability.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HONORS -->
+<section id="honors">
+  <div class="section-label">Leadership & Honors</div>
+  <div class="section-title">Beyond the code</div>
+  <div class="honors-list">
+    <div class="honor-card">
+      <div class="honor-icon"></div>
+      <div>
+        <h4>Paper Presentation</h4>
+        <p>Presented research on Autonomous Vehicles with ROS 2 & Digital Twin Validation. Collaborated with Sanjay B., guided by Dr. Bharathipriya C.</p>
+      </div>
+    </div>
+    <div class="honor-card">
+      <div class="honor-icon"></div>
+      <div>
+        <h4>Peer Mentor — Design Sprints</h4>
+        <p>Mentored peers in collaborative problem-solving and design thinking workflows.</p>
+      </div>
+    </div>
+    <div class="honor-card">
+      <div class="honor-icon"></div>
+      <div>
+        <h4>Core Team · Qubate Quiz & Debate Club</h4>
+        <p>Organised large-scale events including the India Quiz with 75+ teams — handled full coordination and logistics.</p>
+      </div>
+    </div>
+    <div class="honor-card">
+      <div class="honor-icon"></div>
+      <div>
+        <h4>Core Team · GirlUp Fembots</h4>
+        <p>Active member of the UN Foundation-backed initiative empowering women in STEM.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact" style="padding-bottom: 8rem;">
+  <div class="contact-card">
+    <div class="contact-big">CONTACT</div>
+    <p>Interested in working together? Send me an email to</p>
+    <a href="ankitaanand092005@gmail.com" class="contact-email"><span>ankitaanand092005@gmail.com</span></a>
+    <div class="contact-links">
+      <a href="https://www.linkedin.com/in/ankita-anand-42702a291/" target="_blank" class="contact-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="tel:7826906496" class="contact-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+        +91 7826906496
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Built with care &nbsp;·&nbsp; Ankita Anand &nbsp;·&nbsp; KCT Coimbatore, Batch 2027
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+document.addEventList
